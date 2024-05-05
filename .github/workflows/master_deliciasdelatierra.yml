@@ -21,14 +21,17 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/build/libs/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_80B9A88D4FA64862A2298F2B3C0F459E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_49ABCE595D1A4E4CBDE01686A3158902 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7D9865314C2940DC93BA7E03FDD2AA77 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_24FC7AA4A0074102BC1437B983571265 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9A1DE4714E7B405EBD53FEA524EDE296 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EFD4846BEA944FA9847AB11377820736 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -59,4 +62,3 @@ jobs:
           app-name: 'DeliciasDeLaTierra'
           slot-name: 'Production'
           package: '*.jar'
-          
