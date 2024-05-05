@@ -4,10 +4,13 @@ import apirestdelicias.model.Login;
 import apirestdelicias.model.Usuario;
 import apirestdelicias.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 
 
@@ -24,5 +27,16 @@ public class ControllerAuthentication {
         } else {
             return ResponseEntity.badRequest().body("Credenciales inválidas. Inténtalo de nuevo.");
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody Usuario usuario) {
+        Usuario existingUser = usuarioRepository.findByEmail(usuario.getEmail());
+        if (existingUser != null) {
+            return ResponseEntity.badRequest().body("Ya existe un usuario con ese correo electrónico.");
+        }
+
+        usuarioRepository.save(usuario);
+        return ResponseEntity.ok("Registro exitoso!");
     }
 }
