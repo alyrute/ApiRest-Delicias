@@ -59,4 +59,3 @@ jobs:
           app-name: 'DeliciasDeLaTierra'
           slot-name: 'Production'
           package: '*.jar'
-          
