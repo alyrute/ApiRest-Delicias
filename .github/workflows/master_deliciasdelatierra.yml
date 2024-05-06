@@ -62,9 +62,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'DeliciasDeLaTierra'
-          slot-name: 'Production'
+          slot-name: 'Production' # Esta es la línea que se debe eliminar para corregir el error
           package: '${{ github.workspace }}/build/libs/*.jar'
-
-          app-name: 'DeliciasDeLaTierra'
-          slot-name: 'Production'
-          package: '${{ github.workspace }}/build/libs/*.jar' 
