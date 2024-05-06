@@ -16,10 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Establece la versión de Node.js a 20
+
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
-          java-version: '11' 
+          java-version: '11' # Java 11 es más compatible con Gradle
 
       - name: Build with Gradle
         run: ./gradlew clean build
@@ -28,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/build/libs/*.jar' 
+          path: '${{ github.workspace }}/build/libs/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,8 +42,8 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write 
-  
+      id-token: write
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -56,6 +61,10 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
+          app-name: 'DeliciasDeLaTierra'
+          slot-name: 'Production'
+          package: '${{ github.workspace }}/build/libs/*.jar'
+
           app-name: 'DeliciasDeLaTierra'
           slot-name: 'Production'
           package: '${{ github.workspace }}/build/libs/*.jar' 
