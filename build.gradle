@@ -38,7 +38,6 @@ azurewebapp {
         webContainer = 'Java SE' // or 'Java SE' if you want to run an executable jar
         javaVersion = '8'
     }
-
     auth {
         type = 'azure_cli' // support azure_cli, oauth2, device_code and service_principal
     }
