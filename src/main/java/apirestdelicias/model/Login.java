@@ -1,7 +1,7 @@
 package apirestdelicias.model;
 
 public class Login {
-    private String usuario;
+    private String email;
     private String password;
 
     // Constructor por defecto
@@ -9,18 +9,18 @@ public class Login {
     }
 
     // Constructor con parámetros
-    public Login(String usuario, String password) {
-        this.usuario = usuario;
+    public Login(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
     // Getters y setters
-    public String getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

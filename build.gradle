@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.microsoft.azure.azurewebapp" version "1.7.1"
 }
 
@@ -9,7 +9,7 @@ group = 'net.apirest'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '8'
 }
 
 repositories {
@@ -25,4 +25,21 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+azurewebapp {
+    subscription = 'fd6e6a4a-7b4c-4fa6-ad97-5b27e7cfd267'
+    resourceGroup = 'GrupoDeliciasDeLaTierra'
+    appName = 'ApiRestDeliciasDeLaTierra'
+    pricingTier = 'F1'
+    region = 'East US'
+    runtime {
+        os = 'Linux'
+        webContainer = 'Java SE' // or 'Java SE' if you want to run an executable jar
+        javaVersion = '8'
+    }
+
+    auth {
+        type = 'azure_cli' // support azure_cli, oauth2, device_code and service_principal
+    }
 }

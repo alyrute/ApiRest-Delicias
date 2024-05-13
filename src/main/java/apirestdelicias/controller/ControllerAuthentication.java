@@ -21,7 +21,7 @@ public class ControllerAuthentication {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Login login) {
-        Usuario usuario = usuarioRepository.findByEmail(login.getUsuario());
+        Usuario usuario = usuarioRepository.findByEmail(login.getEmail());
         if (usuario != null && usuario.getPassword().equals(login.getPassword())) {
             return ResponseEntity.ok("¡Inicio de sesión exitoso!");
         } else {
