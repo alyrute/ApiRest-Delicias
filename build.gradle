@@ -28,17 +28,15 @@ tasks.named('test') {
 }
 
 azurewebapp {
-    subscription = 'fd6e6a4a-7b4c-4fa6-ad97-5b27e7cfd267'
-    resourceGroup = 'GrupoDeliciasDeLaTierra'
-    appName = 'ApiRestDeliciasDeLaTierra'
+    subscription = '5d6914b1-8f90-4dc3-96f3-4ad4a6ee1c43'
+    resourceGroup = 'DeLaTierra'
+    appName = 'ApiDeliciasDeLaTierra'
     pricingTier = 'F1'
     region = 'East US'
     runtime {
         os = 'Linux'
-        webContainer = 'Java SE' // or 'Java SE' if you want to run an executable jar
+        webContainer = 'Java SE'
         javaVersion = '8'
     }
-    auth {
-        type = 'azure_cli' // support azure_cli, oauth2, device_code and service_principal
-    }
+
 }

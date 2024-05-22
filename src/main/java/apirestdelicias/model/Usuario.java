@@ -1,5 +1,7 @@
 package apirestdelicias.model;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -91,7 +93,7 @@ public class Usuario  implements Serializable {
         this.provincia = provincia;
     }
 
-    @Override
+     @Override
     public String toString() {
         return "Usuario{" +
                 "idusuario=" + idusuario +

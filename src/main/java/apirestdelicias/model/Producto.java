@@ -1,43 +1,45 @@
 package apirestdelicias.model;
 
-
 import javax.persistence.*;
-
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Base64;
 
 @Entity
 @Table(name = "producto")
 public class Producto implements Serializable {
 
     @Id
-    @Column(name= "idproducto")
+    @Column(name = "idproducto")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idproducto;
 
-    @Column(name= "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name= "descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name= "fecha")
-    private Date fecha;
+    @Column(name = "fecha")
+    private String fecha;
 
-    @Column(name= "estado")
+    @Column(name = "estado")
     private String estado;
 
-    @ManyToOne
-    @JoinColumn(name = "idcategoria", referencedColumnName = "idcategoria")
-    private Categoria idcategoria;
+    @Column(name = "idcategoria", nullable = false)
+    private Integer idcategoria;
 
-    @Column(name= "imagen")
-    private String imagen;
+    @Column(name = "imagen")
+    private byte[] imagen;
+
+    @ManyToOne
+    @JoinColumn(name = "idusuario", nullable = false)
+    private Usuario usuario;
+
 
     public Producto() {
     }
 
-    public Producto(Integer idproducto, String nombre, String descripcion, Date fecha, String estado, Categoria idcategoria, String imagen) {
+    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Integer idcategoria, byte[] imagen, Integer idusuario) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -45,7 +47,10 @@ public class Producto implements Serializable {
         this.estado = estado;
         this.idcategoria = idcategoria;
         this.imagen = imagen;
+        this.usuario = usuario;
     }
+
+    // Getters y setters...
 
     public Integer getIdproducto() {
         return idproducto;
@@ -71,11 +76,11 @@ public class Producto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -87,20 +92,31 @@ public class Producto implements Serializable {
         this.estado = estado;
     }
 
-    public Categoria getIdcategoria() {
+    public Integer getIdcategoria() {
         return idcategoria;
     }
 
-    public void setIdcategoria(Categoria idcategoria) {
+    public void setIdcategoria(Integer idcategoria) {
         this.idcategoria = idcategoria;
     }
 
-    public String getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
+    }
+
+    public String getImagenBase64() {
+        return Base64.getEncoder().encodeToString(this.imagen);
+    }
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -109,10 +125,11 @@ public class Producto implements Serializable {
                 "idproducto=" + idproducto +
                 ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", fecha=" + fecha +
+                ", fecha='" + fecha + '\'' +
                 ", estado='" + estado + '\'' +
                 ", idcategoria=" + idcategoria +
-                ", imagen='" + imagen + '\'' +
+                ", imagen=" + (imagen != null ? "size=" + imagen.length : "null") +
+                ", usuario=" + usuario +
                 '}';
     }
 }
