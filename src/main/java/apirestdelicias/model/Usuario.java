@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -33,6 +34,11 @@ public class Usuario  implements Serializable {
 
     @Column(name= "provincia")
     private String provincia;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Producto> productos;
+
+
 
     public Usuario() {
     }
@@ -92,6 +98,7 @@ public class Usuario  implements Serializable {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
+
 
      @Override
     public String toString() {

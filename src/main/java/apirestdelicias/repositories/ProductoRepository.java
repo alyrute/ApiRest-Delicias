@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface ProductoRepository extends CrudRepository<Producto, Integer> {
     List<Producto> findByUsuario(Usuario usuario);
+
 }
+

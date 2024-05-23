@@ -39,7 +39,7 @@ public class Producto implements Serializable {
     public Producto() {
     }
 
-    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Integer idcategoria, byte[] imagen, Integer idusuario) {
+    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Integer idcategoria, byte[] imagen, Usuario usuario) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -48,6 +48,7 @@ public class Producto implements Serializable {
         this.idcategoria = idcategoria;
         this.imagen = imagen;
         this.usuario = usuario;
+
     }
 
     // Getters y setters...
@@ -111,6 +112,7 @@ public class Producto implements Serializable {
     public String getImagenBase64() {
         return Base64.getEncoder().encodeToString(this.imagen);
     }
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -129,7 +131,6 @@ public class Producto implements Serializable {
                 ", estado='" + estado + '\'' +
                 ", idcategoria=" + idcategoria +
                 ", imagen=" + (imagen != null ? "size=" + imagen.length : "null") +
-                ", usuario=" + usuario +
                 '}';
     }
 }

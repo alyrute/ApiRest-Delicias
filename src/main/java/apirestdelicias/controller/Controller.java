@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -37,7 +40,6 @@ public class Controller {
         cadena +="<tr><td>get </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
         cadena +="<tr><td>get </td><td>/usuario/{id}</td><td>Usuario</td></tr>";
         cadena +="<tr><td>post </td><td>/usuario</td><td>Inserta usuario</td></tr>";
-        cadena +="<tr><td>get </td><td>/usuario/{id}/productos</td><td>Lista de productos asociados a un usuario</td></tr>";
         cadena +="<tr><td>get </td><td>/categorias</td><td>Lista de categorias</td></tr>";
         cadena +="<tr><td>get </td><td>/categoria/{id}</td><td>Categoria</td></tr>";
         cadena +="<tr><td>post </td><td>/categoria</td><td>Inserta categoria</td></tr>";
@@ -51,6 +53,7 @@ public class Controller {
         cadena +="<tr><td>post </td><td>/mensaje</td><td>Inserta mensaje</td></tr>";
         cadena +="<tr><td>delete </td><td>/mensaje/{id}</td><td>Borra mensaje</td></tr>";
         cadena +="<tr><td>get </td><td>/productos</td><td>Lista de productos</td></tr>";
+        cadena +="<tr><td>get </td><td>/producto/{id}/usuario</td><td>Lista de producto con usuarios</td></tr>";
         cadena +="<tr><td>get </td><td>/producto/{id}</td><td>Producto</td></tr>";
         cadena +="<tr><td>post </td><td>/producto</td><td>Inserta producto</td></tr>";
         cadena +="<tr><td>delete </td><td>/producto/{id}</td><td>Borra producto</td></tr>";
@@ -202,21 +205,22 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "usuario/{id}/productos", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getProductosPorUsuario(@PathVariable(value = "id") int id) {
+
+    @RequestMapping(value = "/producto/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getProductoYUsuario(@PathVariable(value = "id") int id) {
         try {
-            // Primero, verifica si el usuario existe
-            Usuario usuario = usuarioRepository.findById(id).orElse(null);
-            if (usuario != null) {
-                // Si el usuario existe, busca los productos asociados a ese usuario
-                List<Producto> productos = productoRepository.findByUsuario(usuario);
-                return new ResponseEntity<>(productos, HttpStatus.OK);
+            Optional<Producto> productoOptional = productoRepository.findById(id);
+            if (productoOptional.isPresent()) {
+                Producto producto = productoOptional.get();
+                Usuario usuario = producto.getUsuario();
+                Map<String, Object> response = new HashMap<>();
+                response.put("producto", producto);
+                response.put("usuario", usuario);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                // Si el usuario no existe, devuelve un error 404
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception ex) {
-            // Si ocurre algún error, devuelve un error 400
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
