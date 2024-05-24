@@ -114,6 +114,17 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
+    @GetMapping("/categoria/{idcategoria}/producto")
+    public ResponseEntity<Map<String, List<Producto>>> getProductoPorCategoria(@PathVariable Integer idcategoria) {
+        List<Producto> productos = productoRepository.findByCategoriaIdcategoria(idcategoria);
+        if (!productos.isEmpty()) {
+            Map<String, List<Producto>> response = new HashMap<>();
+            response.put("producto", productos);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @RequestMapping(value = "intercambios", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getIntercambios() {
@@ -202,26 +213,6 @@ public class Controller {
             return new ResponseEntity<>(usuarioResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    @RequestMapping(value = "/producto/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getProductoYUsuario(@PathVariable(value = "id") int id) {
-        try {
-            Optional<Producto> productoOptional = productoRepository.findById(id);
-            if (productoOptional.isPresent()) {
-                Producto producto = productoOptional.get();
-                Usuario usuario = producto.getUsuario();
-                Map<String, Object> response = new HashMap<>();
-                response.put("producto", producto);
-                response.put("usuario", usuario);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -34,10 +34,6 @@ public class Usuario  implements Serializable {
     @Column(name= "provincia")
     private String provincia;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Producto> productos;
-
-
 
     public Usuario() {
     }

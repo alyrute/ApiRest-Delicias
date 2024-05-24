@@ -25,33 +25,30 @@ public class Producto implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    @Column(name = "idcategoria", nullable = false)
-    private Integer idcategoria;
+    @ManyToOne
+    @JoinColumn(name = "idcategoria", nullable = false)
+    private Categoria categoria;
+
 
     @Column(name = "imagen")
     private byte[] imagen;
 
-    @ManyToOne
-    @JoinColumn(name = "idusuario", nullable = false)
-    private Usuario usuario;
-
+    @Column(name = "idusuario", nullable = false)
+    private Integer idusuario;
 
     public Producto() {
     }
 
-    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Integer idcategoria, byte[] imagen, Usuario usuario) {
+    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Categoria categoria, byte[] imagen, Integer idusuario) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.estado = estado;
-        this.idcategoria = idcategoria;
+        this.categoria = categoria;
         this.imagen = imagen;
-        this.usuario = usuario;
-
+        this.idusuario = idusuario;
     }
-
-    // Getters y setters...
 
     public Integer getIdproducto() {
         return idproducto;
@@ -93,14 +90,13 @@ public class Producto implements Serializable {
         this.estado = estado;
     }
 
-    public Integer getIdcategoria() {
-        return idcategoria;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setIdcategoria(Integer idcategoria) {
-        this.idcategoria = idcategoria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
-
     public byte[] getImagen() {
         return imagen;
     }
@@ -112,14 +108,14 @@ public class Producto implements Serializable {
     public String getImagenBase64() {
         return Base64.getEncoder().encodeToString(this.imagen);
     }
-
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getIdusuario() {
+        return idusuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdusuario(Integer idusuario) {
+        this.idusuario = idusuario;
     }
+
 
     @Override
     public String toString() {
@@ -129,8 +125,9 @@ public class Producto implements Serializable {
                 ", descripcion='" + descripcion + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", estado='" + estado + '\'' +
-                ", idcategoria=" + idcategoria +
+                ", categoria=" + categoria +
                 ", imagen=" + (imagen != null ? "size=" + imagen.length : "null") +
+                ", idusuario='" + idusuario + '\'' +
                 '}';
     }
 }
