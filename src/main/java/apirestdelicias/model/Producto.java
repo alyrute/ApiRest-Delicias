@@ -33,13 +33,14 @@ public class Producto implements Serializable {
     @Column(name = "imagen")
     private byte[] imagen;
 
-    @Column(name = "idusuario", nullable = false)
-    private Integer idusuario;
+    @ManyToOne
+    @JoinColumn(name = "idusuario", referencedColumnName = "idusuario")
+    private Usuario usuario;
 
     public Producto() {
     }
 
-    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Categoria categoria, byte[] imagen, Integer idusuario) {
+    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Categoria categoria, byte[] imagen, Usuario usuario) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -47,7 +48,7 @@ public class Producto implements Serializable {
         this.estado = estado;
         this.categoria = categoria;
         this.imagen = imagen;
-        this.idusuario = idusuario;
+        this.usuario = usuario;
     }
 
     public Integer getIdproducto() {
@@ -108,12 +109,12 @@ public class Producto implements Serializable {
     public String getImagenBase64() {
         return Base64.getEncoder().encodeToString(this.imagen);
     }
-    public Integer getIdusuario() {
-        return idusuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdusuario(Integer idusuario) {
-        this.idusuario = idusuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 
@@ -127,7 +128,7 @@ public class Producto implements Serializable {
                 ", estado='" + estado + '\'' +
                 ", categoria=" + categoria +
                 ", imagen=" + (imagen != null ? "size=" + imagen.length : "null") +
-                ", idusuario='" + idusuario + '\'' +
+                ", usuario='" + usuario + '\'' +
                 '}';
     }
 }

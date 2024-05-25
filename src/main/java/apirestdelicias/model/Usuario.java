@@ -12,8 +12,8 @@ import java.util.List;
 public class Usuario  implements Serializable {
 
     @Id
-    @Column(name= "idusuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idusuario")
     private Integer idusuario;
 
     @Column(name= "nombre")

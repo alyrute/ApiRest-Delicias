@@ -1,7 +1,6 @@
 package apirestdelicias.model;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,15 +27,19 @@ public class Mensaje implements Serializable {
     @Column(name = "fecha")
     private Date fecha;
 
+    @Column(name = "leido")
+    private boolean leido;
+
     public Mensaje() {
     }
 
-    public Mensaje(Integer idmensaje, Usuario idusuario1, Usuario idusuario2, String texto, Date fecha) {
+    public Mensaje(Integer idmensaje, Usuario idusuario1, Usuario idusuario2, String texto, Date fecha, boolean leido) {
         this.idmensaje = idmensaje;
         this.idusuario1 = idusuario1;
         this.idusuario2 = idusuario2;
         this.texto = texto;
         this.fecha = fecha;
+        this.leido = leido;
     }
 
     public Integer getIdmensaje() {
@@ -79,6 +82,14 @@ public class Mensaje implements Serializable {
         this.fecha = fecha;
     }
 
+    public boolean isLeido() {
+        return leido;
+    }
+
+    public void setLeido(boolean leido) {
+        this.leido = leido;
+    }
+
     @Override
     public String toString() {
         return "Mensaje{" +
@@ -87,6 +98,7 @@ public class Mensaje implements Serializable {
                 ", idusuario2=" + idusuario2 +
                 ", texto='" + texto + '\'' +
                 ", fecha=" + fecha +
+                ", leido=" + leido +
                 '}';
     }
 }

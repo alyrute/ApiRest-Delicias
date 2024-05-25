@@ -13,5 +13,8 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
     Usuario findByEmailAndPassword(String email, String password);
 
 
+
+
+
 }
 

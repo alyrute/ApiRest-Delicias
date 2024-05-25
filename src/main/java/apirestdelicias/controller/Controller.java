@@ -125,6 +125,23 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/usuario/{idusuario}/productos")
+    public ResponseEntity<Map<String, List<Producto>>> getProductoByUsuario(@PathVariable Integer idusuario) {
+        List<Producto> productos = productoRepository.findByUsuarioIdusuario(idusuario);
+        if (!productos.isEmpty()) {
+            Map<String, List<Producto>> response = new HashMap<>();
+            response.put("productos", productos);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+
+
+
 
     @RequestMapping(value = "intercambios", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getIntercambios() {
