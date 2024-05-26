@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -114,7 +111,7 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
-    @GetMapping("/categoria/{idcategoria}/producto")
+    @RequestMapping(value = "/categoria/{idcategoria}/producto", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Map<String, List<Producto>>> getProductoPorCategoria(@PathVariable Integer idcategoria) {
         List<Producto> productos = productoRepository.findByCategoriaIdcategoria(idcategoria);
         if (!productos.isEmpty()) {
@@ -125,23 +122,19 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/usuario/{idusuario}/productos")
-    public ResponseEntity<Map<String, List<Producto>>> getProductoByUsuario(@PathVariable Integer idusuario) {
-        List<Producto> productos = productoRepository.findByUsuarioIdusuario(idusuario);
-        if (!productos.isEmpty()) {
-            Map<String, List<Producto>> response = new HashMap<>();
-            response.put("productos", productos);
-            return ResponseEntity.ok(response);
-        } else {
+    @RequestMapping(value = "/producto/{idproducto}/usuario", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Usuario> obtenerUsuarioPorProducto(@PathVariable Integer idproducto) {
+        Optional<Producto> optionalProducto = productoRepository.findById(idproducto);
+        if (!optionalProducto.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Producto producto = optionalProducto.get();
+        Usuario usuario = producto.getUsuario();
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(usuario);
     }
-
-
-
-
-
-
 
     @RequestMapping(value = "intercambios", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getIntercambios() {
@@ -169,9 +162,12 @@ public class Controller {
             Iterable<Mensaje> mensajes = mensajeRepository.findAll();
             return new ResponseEntity<>(mensajes, HttpStatus.OK);
         } catch (Exception ex) {
+            System.out.println("Error al obtener los mensajes: " + ex.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
     @RequestMapping(value = "mensaje", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> insertarMensaje(@RequestBody Mensaje mensaje) {

@@ -1,5 +1,6 @@
 package apirestdelicias.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.*;
@@ -22,9 +23,11 @@ public class Usuario  implements Serializable {
     @Column(name= "apellidos")
     private String apellidos;
 
+    @JsonIgnore
     @Column(name= "email")
     private String email;
 
+    @JsonIgnore
     @Column(name= "password")
     private String password;
 
