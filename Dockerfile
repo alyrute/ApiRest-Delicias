@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/your-app.jar app.jar
 
 # Expone el puerto en el que se ejecutará tu aplicación
-EXPOSE 8080
+EXPOSE 8082
 
 # Comando para ejecutar tu aplicación Spring Boot
 CMD ["java", "-jar", "app.jar"]
