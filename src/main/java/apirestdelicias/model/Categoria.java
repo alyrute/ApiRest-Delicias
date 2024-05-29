@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Base64;
 
+
 @Entity
 @Table(name = "categoria")
 public class Categoria implements Serializable {
