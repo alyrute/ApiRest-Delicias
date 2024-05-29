@@ -33,6 +33,7 @@ public class Categoria implements Serializable {
         this.imagen= imagen;
     }
 
+
     public Integer getIdcategoria() {
         return idcategoria;
     }
