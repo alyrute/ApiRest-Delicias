@@ -1,9 +1,5 @@
 package apirestdelicias.model;
 
-
-
-
-
 import javax.persistence.*;
 
 import java.io.Serializable;
