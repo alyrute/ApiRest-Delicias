@@ -38,5 +38,10 @@ azurewebapp {
         webContainer = 'Java SE'
         javaVersion = '8'
     }
-
 }
+
+dependencies {
+    implementation 'com.google.firebase:firebase-admin:8.0.0'
+}
+
+

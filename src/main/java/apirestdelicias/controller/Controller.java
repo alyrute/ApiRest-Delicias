@@ -34,26 +34,19 @@ public class Controller {
         String cadena = "<h1 style='text-align: center; background-color: #0000c0; color: #C0C0FF;'>Welcome to Delicias De La Tierra Api with SpringBoot - Alicia Ruiz</h1>";
         cadena +="<table border='1' style='width: 40%;margin: 0 auto; background-color: #C0C0FF; color:#0000c0;'>";
         cadena +="<tr style='background-color: #0000c0; color: #C0C0FF;'><th>Method</th><th>Url</th><th>Description</th></tr>";
-        cadena +="<tr><td>get </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
-        cadena +="<tr><td>get </td><td>/usuario/{id}</td><td>Usuario</td></tr>";
-        cadena +="<tr><td>post </td><td>/usuario</td><td>Inserta usuario</td></tr>";
-        cadena +="<tr><td>get </td><td>/categorias</td><td>Lista de categorias</td></tr>";
-        cadena +="<tr><td>get </td><td>/categoria/{id}</td><td>Categoria</td></tr>";
-        cadena +="<tr><td>post </td><td>/categoria</td><td>Inserta categoria</td></tr>";
-        cadena +="<tr><td>delete </td><td>/categoria/{id}</td><td>Borra categoria</td></tr>";
-        cadena +="<tr><td>get </td><td>/intercambios</td><td>Lista de intercambios</td></tr>";
-        cadena +="<tr><td>get </td><td>/intercambio/{id}</td><td>Intercambio</td></tr>";
-        cadena +="<tr><td>post </td><td>/intercambio</td><td>Inserta intercambio</td></tr>";
-        cadena +="<tr><td>delete </td><td>/intercambio/{id}</td><td>Borra intercambio</td></tr>";
-        cadena +="<tr><td>get </td><td>/mensajes</td><td>Lista de mensajes</td></tr>";
-        cadena +="<tr><td>get </td><td>/mensaje/{id}</td><td>Mensaje</td></tr>";
-        cadena +="<tr><td>post </td><td>/mensaje</td><td>Inserta mensaje</td></tr>";
-        cadena +="<tr><td>delete </td><td>/mensaje/{id}</td><td>Borra mensaje</td></tr>";
-        cadena +="<tr><td>get </td><td>/productos</td><td>Lista de productos</td></tr>";
-        cadena +="<tr><td>get </td><td>/producto/{id}/usuario</td><td>Lista de producto con usuarios</td></tr>";
-        cadena +="<tr><td>get </td><td>/producto/{id}</td><td>Producto</td></tr>";
-        cadena +="<tr><td>post </td><td>/producto</td><td>Inserta producto</td></tr>";
-        cadena +="<tr><td>delete </td><td>/producto/{id}</td><td>Borra producto</td></tr>";
+        cadena +="<tr><td>GET </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
+        cadena +="<tr><td>GET </td><td>/usuario/{id}</td><td>Usuario</td></tr>";
+        cadena +="<tr><td>POST </td><td>/usuario</td><td>Inserta usuario</td></tr>";
+        cadena +="<tr><td>GET </td><td>/login</td><td>Login de usuario</td></tr>";
+        cadena +="<tr><td>POST </td><td>/register</td><td>Registro de usuario</td></tr>";
+        cadena +="<tr><td>GET </td><td>/categorias</td><td>Lista de categorias</td></tr>";
+        cadena +="<tr><td>POST </td><td>/categoria</td><td>Inserta categoria</td></tr>";
+        cadena +="<tr><td>GET </td><td>/categoria/{idcategoria}/producto</td><td>Lista de productos por categoria</td></tr>";
+        cadena +="<tr><td>GET </td><td>/productos</td><td>Lista de productos</td></tr>";
+        cadena +="<tr><td>POST </td><td>/producto</td><td>Inserta producto</td></tr>";
+        cadena +="<tr><td>GET </td><td>/producto/{idproducto}/usuario</td><td>Usuario de un producto</td></tr>";
+        cadena +="<tr><td>GET </td><td>/mensajes/producto/{idproducto}/</td><td>Lista de mensajes por producto</td></tr>";
+        cadena +="<tr><td>POST </td><td>/mensaje</td><td>Inserta mensaje</td></tr>";
         cadena +="</table>";
         return cadena;
 
@@ -92,6 +85,31 @@ public class Controller {
         }
     }
 
+    // Login un usuario
+    @RequestMapping(value = "login", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+        try {
+            Usuario usuarioResponse = usuarioRepository.findByEmailAndPassword(email, password);
+            if (usuarioResponse != null) {
+                return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "register", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
+        try {
+            Usuario usuarioResponse = usuarioRepository.save(usuario);
+            return new ResponseEntity<>(usuarioResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "categorias", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getCategorias() {
         try {
@@ -111,6 +129,7 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
     @RequestMapping(value = "/categoria/{idcategoria}/producto", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Map<String, List<Producto>>> getProductoPorCategoria(@PathVariable Integer idcategoria) {
         List<Producto> productos = productoRepository.findByCategoriaIdcategoria(idcategoria);
@@ -120,62 +139,6 @@ public class Controller {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
-        }
-    }
-    @RequestMapping(value = "/producto/{idproducto}/usuario", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Usuario> obtenerUsuarioPorProducto(@PathVariable Integer idproducto) {
-        Optional<Producto> optionalProducto = productoRepository.findById(idproducto);
-        if (!optionalProducto.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        Producto producto = optionalProducto.get();
-        Usuario usuario = producto.getUsuario();
-        if (usuario == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(usuario);
-    }
-
-    @RequestMapping(value = "intercambios", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getIntercambios() {
-        try {
-            Iterable<Intercambio> intercambios = intercambioRepository.findAll();
-            return new ResponseEntity<>(intercambios, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @RequestMapping(value = "intercambio", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> insertarIntercambio(@RequestBody Intercambio intercambio) {
-        try {
-            Intercambio intercambioResponse = intercambioRepository.save(intercambio);
-            return new ResponseEntity<>(intercambioResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
-
-    @RequestMapping(value = "mensajes", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getMensajes() {
-        try {
-            Iterable<Mensaje> mensajes = mensajeRepository.findAll();
-            return new ResponseEntity<>(mensajes, HttpStatus.OK);
-        } catch (Exception ex) {
-            System.out.println("Error al obtener los mensajes: " + ex.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
-
-    @RequestMapping(value = "mensaje", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> insertarMensaje(@RequestBody Mensaje mensaje) {
-        try {
-            Mensaje mensajeResponse = mensajeRepository.save(mensaje);
-            return new ResponseEntity<>(mensajeResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -192,42 +155,56 @@ public class Controller {
     @RequestMapping(value = "producto", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> insertarProducto(@RequestBody Producto producto) {
         try {
-            System.out.println("Recibido producto: " + producto.getNombre());
-            System.out.println("Longitud de imagen: " + (producto.getImagen() != null ? producto.getImagen().length : "null"));
             Producto productoResponse = productoRepository.save(producto);
             return new ResponseEntity<>(productoResponse, HttpStatus.CREATED);
         } catch (Exception e) {
-            System.out.println("Error al guardar producto: " + e);
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
+    @RequestMapping(value = "/producto/{idproducto}/usuario", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Usuario> obtenerUsuarioPorProducto(@PathVariable Integer idproducto) {
+        Optional<Producto> optionalProducto = productoRepository.findById(idproducto);
+        if (!optionalProducto.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        Producto producto = optionalProducto.get();
+        Usuario usuario = producto.getUsuario();
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(usuario);
+    }
 
-    // Login un usuario
-    @RequestMapping(value = "login", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+
+    @RequestMapping(value = "mensajes/producto/{idproducto}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<Mensaje>> getMensajesByIdProducto(@PathVariable Integer idproducto, @RequestParam Integer senderid, @RequestParam Integer receiverid) {
         try {
-            Usuario usuarioResponse = usuarioRepository.findByEmailAndPassword(email, password);
-            if (usuarioResponse != null) {
-                return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
+            // Recuperar mensajes enviados por el remitente para el producto dado
+            List<Mensaje> mensajesEnviados = mensajeRepository.findBySenderidAndIdproducto(senderid, idproducto);
+
+            // Recuperar mensajes recibidos por el receptor para el producto dado
+            List<Mensaje> mensajesRecibidos = mensajeRepository.findByReceiveridAndIdproducto(receiverid, idproducto);
+
+            // Combinar ambos conjuntos de mensajes en una lista final
+            List<Mensaje> mensajes = new ArrayList<>();
+            mensajes.addAll(mensajesEnviados);
+            mensajes.addAll(mensajesRecibidos);
+
+            return new ResponseEntity<>(mensajes, HttpStatus.OK);
         } catch (Exception ex) {
+            System.out.println("Error al obtener los mensajes relacionados con el producto: " + ex.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-
-    @RequestMapping(value = "register", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
+    @RequestMapping(value = "mensaje", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> insertarMensaje(@RequestBody Mensaje mensaje) {
         try {
-            Usuario usuarioResponse = usuarioRepository.save(usuario);
-            return new ResponseEntity<>(usuarioResponse, HttpStatus.CREATED);
+            Mensaje mensajeResponse = mensajeRepository.save(mensaje);
+            return new ResponseEntity<>(mensajeResponse, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
-
-
 }

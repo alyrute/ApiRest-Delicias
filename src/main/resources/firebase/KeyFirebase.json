@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "deliciasdelatierra-649fe",
+  "private_key_id": "48546e28679cd4ac4182a2ef8740fa2d6fc8e3ad",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCfegXtCJ8FaeZf\nmd9NOykC5cQXbZNrGFj6j2u6iXVMmY/gGzRQHhTZZ9sqGHtgK/TmB+AXFvR4TCbq\n8oNfeufsw9nbWTm/ZittJc7Kc6QAYGtq9l6/UnhoAehRky7UE4v9cnpx9KhoJIJJ\n0+qTq3xrL1EptkdlvFVVBqdJ1GBV0DUfHtqfZ81/qH0q5NPh88jowvRdjLU9HdNm\n7eW3NZeJ11/7lYWhz7dEsw8gKmH3uv3nxMe+pGcD+whXZvmNHEY+oq1DpjsNdUd1\nzr7QFfjwU3lK+fGZts7IvZzIxmVuX25l/BDGyr284ibGA0Bc/IThns7xL2W0XI3+\nLu1G3KpJAgMBAAECggEACUPyBnGg6JP8pxsF5OMuKK2QASL0BM29NLCCvCuakazd\n1bHK7ikzQabVrkpOF7oyEC/OspS6NyeIfs/Ad3qI8UH3PTXfw6mkVgLzcuJ5Wa7A\nau5dtpysY3GR7XRhTP/GOz9MkySZaLSPT8oEx9fXopQVEXj2SLhClm4sp77TqoSW\n4Qd1DAsOW3M4zUJU9q8OaGY4DmKKT20IfoZ83GWIj1RC6dSEkp6vV2U/N0L/hQCK\nNFwGQp52LeGnWkM+BTMv+L2R+x9XK4XRkO9yWjF7RfT4WQPzSkBDkJmrDp4mkdmm\nnpvEoJH9stZoHu1onGBOs2QhNq1FpdCAs0CzWxZCEQKBgQDUuPjEyRmqiLDhcQIx\nmrLXqDFiWE/tU7ukunFzf6PclYyW8pDTk41vYnDcBNZO9uSH3USuOoa4K+mY03tf\nPiZpAtboBJlPhGSi1BWV6YyYn90YSrmNFg6VhLqhvZRR1nk3/eCnuBC+EvhrkXmU\nk+D6PvDYcrDAlpL92Wlu/iK68QKBgQC/6+VIrI3/kNwCQizpdfRVASiuQoxDVFZc\n7S7KaxxgivdOlqRW8e2JGnOTPd8+2RCr4pCqKMod7KCpLpyGiYpazAjFH8Po9uq7\n9iR6jfwFH+UiUKsBI1VFGXiE+rFPzy8apaIfQSB+sje5lgHw2U7V5gAF0c5wEDRY\nf8dX5Cd02QKBgE1PNEoAdC2AJBiqw4tXl6u82sXNJq8wAUAq6lR5jQn75+5sFapv\nM7XJZw7vSxvDquadyfowFwoUG3+JTIsewULk30nPchBuI0zyGy4yhQBrCSVs8uaN\nn5tDc7iYd7EOa1uoDt+li6AosNQXOMKAxADuowVnGUnE74MGYsUN431hAoGBAIN7\n9npilWoIcWIuuhw7zmfKQneYagXaqsxBRnQxC6Dss9+ofvB+EHGEqLewhNjG15Aa\nyWd6SHZV3f/qShw18I6iCEQcrhhVyZ16VaWMzqMoJc/rmixOa6XKfHIGWiHGXIwR\n+88TzFJggKLprWy3RDZwu4VBJwBJacNTz1tcmNeJAoGAcy1LgbQc8UZnATV9G5eU\nWAaNK1HsQyNAyHKQf95UQzWJWIE90MNv0lztRE4Fq2EyvswXuZWLPTQaTkfIVLXx\nA7lWOJf8EVG8vXdSbkuDGVGFjjdPsChudEde88LIJC4w/XqzcWZfJZXMVZNUzgAk\nYijlaBppsVQKZv0lp2X7Hpo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-qdnln@deliciasdelatierra-649fe.iam.gserviceaccount.com",
+  "client_id": "101251924111552819728",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qdnln%40deliciasdelatierra-649fe.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

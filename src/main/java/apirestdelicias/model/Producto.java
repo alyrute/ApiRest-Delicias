@@ -13,6 +13,9 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idproducto;
 
+    @ManyToOne
+    @JoinColumn(name = "idusuario", referencedColumnName = "idusuario")
+    private Usuario usuario;
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
@@ -33,14 +36,10 @@ public class Producto implements Serializable {
     @Column(name = "imagen")
     private byte[] imagen;
 
-    @ManyToOne
-    @JoinColumn(name = "idusuario", referencedColumnName = "idusuario")
-    private Usuario usuario;
-
     public Producto() {
     }
 
-    public Producto(Integer idproducto, String nombre, String descripcion, String fecha, String estado, Categoria categoria, byte[] imagen, Usuario usuario) {
+    public Producto(Integer idproducto, Usuario usuario, String nombre, String descripcion, String fecha, String estado, Categoria categoria, byte[] imagen) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -58,6 +57,15 @@ public class Producto implements Serializable {
     public void setIdproducto(Integer idproducto) {
         this.idproducto = idproducto;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 
     public String getNombre() {
         return nombre;
@@ -109,26 +117,18 @@ public class Producto implements Serializable {
     public String getImagenBase64() {
         return Base64.getEncoder().encodeToString(this.imagen);
     }
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
 
     @Override
     public String toString() {
         return "Producto{" +
                 "idproducto=" + idproducto +
+                ", usuario='" + usuario + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", estado='" + estado + '\'' +
                 ", categoria=" + categoria +
                 ", imagen=" + (imagen != null ? "size=" + imagen.length : "null") +
-                ", usuario='" + usuario + '\'' +
                 '}';
     }
 }

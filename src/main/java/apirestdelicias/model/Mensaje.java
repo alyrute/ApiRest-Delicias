@@ -2,7 +2,6 @@ package apirestdelicias.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Table(name = "mensaje")
@@ -13,33 +12,34 @@ public class Mensaje implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idmensaje;
 
-    @ManyToOne
-    @JoinColumn(name = "senderid", referencedColumnName = "idusuario")
-    private Usuario senderid;
+    @Column(name = "senderid")
+    private Integer senderid;
 
-    @ManyToOne
-    @JoinColumn(name = "receiverid", referencedColumnName = "idusuario")
-    private Usuario receiverid;
+    @Column(name = "receiverid")
+    private Integer receiverid;
 
     @Column(name = "texto")
     private String texto;
 
     @Column(name = "fecha")
-    private Date fecha;
+    private String fecha;
 
     @Column(name = "leido")
     private boolean leido;
+    @Column(name = "idproducto")
+    private Integer idproducto;
 
     public Mensaje() {
     }
 
-    public Mensaje(Integer idmensaje, Usuario senderid, Usuario receiverid, String texto, Date fecha, boolean leido) {
+    public Mensaje(Integer idmensaje, Integer senderid, Integer receiverid, String texto, String fecha, boolean leido , Integer idproducto) {
         this.idmensaje = idmensaje;
         this.senderid = senderid;
         this.receiverid = receiverid;
         this.texto = texto;
         this.fecha = fecha;
         this.leido = leido;
+        this.idproducto = idproducto;
     }
 
     public Integer getIdmensaje() {
@@ -50,19 +50,19 @@ public class Mensaje implements Serializable {
         this.idmensaje = idmensaje;
     }
 
-    public Usuario getsenderid() {
+    public Integer getSenderid() {
         return senderid;
     }
 
-    public void setsenderid(Usuario senderid) {
+    public void setSenderid(Integer senderid) {
         this.senderid = senderid;
     }
 
-    public Usuario getreceiverid() {
+    public Integer getReceiverid() {
         return receiverid;
     }
 
-    public void setreceiverid(Usuario receiverid) {
+    public void setReceiverid(Integer receiverid) {
         this.receiverid = receiverid;
     }
 
@@ -74,11 +74,11 @@ public class Mensaje implements Serializable {
         this.texto = texto;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -90,6 +90,14 @@ public class Mensaje implements Serializable {
         this.leido = leido;
     }
 
+    public Integer getIdproducto() {
+        return idproducto;
+    }
+
+    public void setIdproducto(Integer idproducto) {
+        this.idproducto = idproducto;
+    }
+
     @Override
     public String toString() {
         return "Mensaje{" +
@@ -99,6 +107,7 @@ public class Mensaje implements Serializable {
                 ", texto='" + texto + '\'' +
                 ", fecha=" + fecha +
                 ", leido=" + leido +
+                ", idproducto=" + idproducto +
                 '}';
     }
 }

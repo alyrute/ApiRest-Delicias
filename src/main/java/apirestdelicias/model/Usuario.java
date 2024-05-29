@@ -23,11 +23,11 @@ public class Usuario  implements Serializable {
     @Column(name= "apellidos")
     private String apellidos;
 
-    @JsonIgnore
+
     @Column(name= "email")
     private String email;
 
-    @JsonIgnore
+
     @Column(name= "password")
     private String password;
 
