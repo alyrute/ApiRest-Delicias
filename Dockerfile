@@ -11,4 +11,3 @@ EXPOSE 8080
 
 # Comando para ejecutar tu aplicación Spring Boot
 CMD ["java", "-jar", "app.jar"]
-
