@@ -32,22 +32,22 @@ public class Controller {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "text/html")
     public String get() {
         String cadena = "<h1 style='text-align: center; background-color: #0000c0; color: #C0C0FF;'>Welcome to Delicias De La Tierra Api with SpringBoot - Alicia Ruiz</h1>";
-        cadena +="<table border='1' style='width: 40%;margin: 0 auto; background-color: #C0C0FF; color:#0000c0;'>";
-        cadena +="<tr style='background-color: #0000c0; color: #C0C0FF;'><th>Method</th><th>Url</th><th>Description</th></tr>";
-        cadena +="<tr><td>GET </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
-        cadena +="<tr><td>GET </td><td>/usuario/{id}</td><td>Usuario</td></tr>";
-        cadena +="<tr><td>POST </td><td>/usuario</td><td>Inserta usuario</td></tr>";
-        cadena +="<tr><td>GET </td><td>/login</td><td>Login de usuario</td></tr>";
-        cadena +="<tr><td>POST </td><td>/register</td><td>Registro de usuario</td></tr>";
-        cadena +="<tr><td>GET </td><td>/categorias</td><td>Lista de categorias</td></tr>";
-        cadena +="<tr><td>POST </td><td>/categoria</td><td>Inserta categoria</td></tr>";
-        cadena +="<tr><td>GET </td><td>/categoria/{idcategoria}/producto</td><td>Lista de productos por categoria</td></tr>";
-        cadena +="<tr><td>GET </td><td>/productos</td><td>Lista de productos</td></tr>";
-        cadena +="<tr><td>POST </td><td>/producto</td><td>Inserta producto</td></tr>";
-        cadena +="<tr><td>GET </td><td>/producto/{idproducto}/usuario</td><td>Usuario de un producto</td></tr>";
-        cadena +="<tr><td>GET </td><td>/mensajes/producto/{idproducto}/</td><td>Lista de mensajes por producto</td></tr>";
-        cadena +="<tr><td>POST </td><td>/mensaje</td><td>Inserta mensaje</td></tr>";
-        cadena +="</table>";
+        cadena += "<table border='1' style='width: 40%;margin: 0 auto; background-color: #C0C0FF; color:#0000c0;'>";
+        cadena += "<tr style='background-color: #0000c0; color: #C0C0FF;'><th>Method</th><th>Url</th><th>Description</th></tr>";
+        cadena += "<tr><td>GET </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
+        cadena += "<tr><td>GET </td><td>/usuario/{id}</td><td>Usuario</td></tr>";
+        cadena += "<tr><td>POST </td><td>/usuario</td><td>Inserta usuario</td></tr>";
+        cadena += "<tr><td>GET </td><td>/login</td><td>Login de usuario</td></tr>";
+        cadena += "<tr><td>POST </td><td>/register</td><td>Registro de usuario</td></tr>";
+        cadena += "<tr><td>GET </td><td>/categorias</td><td>Lista de categorias</td></tr>";
+        cadena += "<tr><td>POST </td><td>/categoria</td><td>Inserta categoria</td></tr>";
+        cadena += "<tr><td>GET </td><td>/categoria/{idcategoria}/producto</td><td>Lista de productos por categoria</td></tr>";
+        cadena += "<tr><td>GET </td><td>/productos</td><td>Lista de productos</td></tr>";
+        cadena += "<tr><td>POST </td><td>/producto</td><td>Inserta producto</td></tr>";
+        cadena += "<tr><td>GET </td><td>/producto/{idproducto}/usuario</td><td>Usuario de un producto</td></tr>";
+        cadena += "<tr><td>GET </td><td>/mensajes/producto/{idproducto}</td><td>Lista de mensajes por producto</td></tr>";
+        cadena += "<tr><td>POST </td><td>/mensaje</td><td>Inserta mensaje</td></tr>";
+        cadena += "</table>";
         return cadena;
 
     }
@@ -141,17 +141,17 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @RequestMapping(value = "productos", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getProductos() {
-        try {
-            Iterable<Producto> productos = productoRepository.findAll();
-            return new ResponseEntity<>(productos, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @RequestMapping(value = "productos/{idusuario}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Map<String, List<Producto>>> getProductosPorUsuario(@PathVariable Integer idusuario) {
+        List<Producto> productos= productoRepository.findByUsuario_Idusuario(idusuario);
+        if (!productos.isEmpty()) {
+            Map<String, List<Producto>> response = new HashMap<>();
+            response.put("producto", productos);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
-
     @RequestMapping(value = "producto", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> insertarProducto(@RequestBody Producto producto) {
         try {
@@ -177,7 +177,7 @@ public class Controller {
     }
 
 
-    @RequestMapping(value = "mensajes/producto/{idproducto}/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "mensajes/producto/{idproducto}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<Mensaje>> getMensajesByIdProducto(@PathVariable Integer idproducto, @RequestParam Integer senderid, @RequestParam Integer receiverid) {
         try {
             // Recuperar mensajes enviados por el remitente para el producto dado
@@ -205,6 +205,21 @@ public class Controller {
             return new ResponseEntity<>(mensajeResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    // Endpoint para eliminar un producto
+    @DeleteMapping(value = "producto/{idproducto}")
+    public ResponseEntity<?> eliminarProducto(@PathVariable("idproducto") Integer id) {
+        try {
+            Optional<Producto> productoOptional = productoRepository.findById(id);
+            if (!productoOptional.isPresent()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            productoRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

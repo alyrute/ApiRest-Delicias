@@ -27,21 +27,3 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-azurewebapp {
-    subscription = '5d6914b1-8f90-4dc3-96f3-4ad4a6ee1c43'
-    resourceGroup = 'DeLaTierra'
-    appName = 'ApiDeliciasDeLaTierra'
-    pricingTier = 'F1'
-    region = 'East US'
-    runtime {
-        os = 'Linux'
-        webContainer = 'Java SE'
-        javaVersion = '8'
-    }
-}
-
-dependencies {
-    implementation 'com.google.firebase:firebase-admin:8.0.0'
-}
-
-

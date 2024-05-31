@@ -10,11 +10,15 @@ import java.util.List;
 
 public interface ProductoRepository extends CrudRepository<Producto, Integer > {
     List<Producto> findByCategoriaIdcategoria(Integer idcategoria);
+    List<Producto> findByUsuario_Idusuario(Integer idusuario);
 
 
 
 
-   
+
+
+
+
 
 }
 
